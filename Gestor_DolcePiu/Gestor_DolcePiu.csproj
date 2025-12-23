@@ -67,17 +67,99 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\Comprar.aspx" />
+    <Content Include="Pages\Contacto.aspx" />
+    <Content Include="Pages\Login.aspx" />
+    <Content Include="Pages\Nosotros.aspx" />
+    <Content Include="Pages\Registro.aspx" />
+    <Content Include="Recursos\img\avatar.png" />
+    <Content Include="Recursos\img\dolce_piu_name.png" />
+    <Content Include="Recursos\img\fabrica-helados-cinco.png" />
+    <Content Include="Recursos\img\fabrica-helados-cuatro.jpg" />
+    <Content Include="Recursos\img\fabrica-helados-dos.jpg" />
+    <Content Include="Recursos\img\fabrica-helados-seis.jpg" />
+    <Content Include="Recursos\img\fabrica-helados-siete.jpeg" />
+    <Content Include="Recursos\img\fabrica-helados-tres.jpg" />
+    <Content Include="Recursos\img\facebook.png" />
+    <Content Include="Recursos\img\helado-uno.jpg" />
+    <Content Include="Recursos\img\helados-artesanales.jpg" />
+    <Content Include="Recursos\img\hero-image.jpg" />
+    <Content Include="Recursos\img\instagram.png" />
+    <Content Include="Recursos\img\logo_dolcepiu.png" />
+    <Content Include="Recursos\img\Remove-bg.ai_1719786109469.png" />
+    <Content Include="Recursos\img\vitrina-helados.jpg" />
+    <Content Include="Recursos\img\whatsapp.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Pages\Contacto.aspx.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Contacto.aspx.designer.cs">
+      <DependentUpon>Contacto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Registro.aspx.cs">
+      <DependentUpon>Registro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Registro.aspx.designer.cs">
+      <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Site.login.Master.cs">
+      <DependentUpon>Site.login.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.login.Master.designer.cs">
+      <DependentUpon>Site.login.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Comprar.aspx.cs">
+      <DependentUpon>Comprar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Comprar.aspx.designer.cs">
+      <DependentUpon>Comprar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Nosotros.aspx.cs">
+      <DependentUpon>Nosotros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Nosotros.aspx.designer.cs">
+      <DependentUpon>Nosotros.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site.master.Master.cs">
+      <DependentUpon>Site.master.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.master.Master.designer.cs">
+      <DependentUpon>Site.master.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Site.login.Master" />
     <None Include="packages.config" />
+    <Content Include="Site.master.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -87,7 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="BLL\" />
+    <Folder Include="DAL\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
