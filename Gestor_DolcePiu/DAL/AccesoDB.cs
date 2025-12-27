@@ -9,6 +9,10 @@ namespace Gestor_DolcePiu.DAL
     {
         private SqlConnection conexion;
         private SqlCommand comando;
+        public SqlCommand Comando
+        {
+            get { return comando; }
+        }
         private SqlDataReader lector;
         public SqlDataReader Lector
         {
@@ -49,6 +53,21 @@ namespace Gestor_DolcePiu.DAL
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public int ejecutarAccionScalar()
+        {
+            comando.Connection = conexion;
+            try
+            {
+                conexion.Open();
+                return int.Parse(comando.ExecuteScalar().ToString());
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }

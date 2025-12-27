@@ -73,6 +73,7 @@
     <Content Include="Pages\Contacto.aspx" />
     <Content Include="Pages\Login.aspx" />
     <Content Include="Pages\Nosotros.aspx" />
+    <Content Include="Pages\ok.html" />
     <Content Include="Pages\Pedidos.aspx" />
     <Content Include="Pages\Registro.aspx" />
     <Content Include="Recursos\img\avatar.png" />
@@ -95,6 +96,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\PedidosService.cs" />
     <Compile Include="BLL\UsuarioServices.cs" />
     <Compile Include="DAL\AccesoDB.cs" />
     <Compile Include="Default.aspx.cs">
@@ -104,11 +106,14 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DestallePedido.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Credenciales.cs" />
+    <Compile Include="Models\ProductoSeleccionado.cs" />
     <Compile Include="Models\Rol.cs" />
+    <Compile Include="Models\TipoPago.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Zonas.cs" />
     <Compile Include="Pages\Contacto.aspx.cs">

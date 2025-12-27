@@ -12,9 +12,12 @@
             <label class="form-label">Contraseña</label>
             <asp:TextBox runat="server" ID="txtPass" CssClass="form-control" TextMode="Password" />
         </div>
-        <div >  
+        <div>
             <asp:Label runat="server" ID="lblMensaje" CssClass="text-danger" Visible="false"></asp:Label>
         </div>
-        <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" cssclass="btn btn-primary" />
+        <asp:Button Text="Ingresar" runat="server" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-primary" />
+    </div>
+    <div>
+        <asp:LinkButton runat="server" ID="lnkRegistro" CssClass="btn btn-link" PostBackUrl="~/Pages/Registro.aspx">¿No tienes una cuenta? Regístrate</asp:LinkButton>
     </div>
 </asp:Content>

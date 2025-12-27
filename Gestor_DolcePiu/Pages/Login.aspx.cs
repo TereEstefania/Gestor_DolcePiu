@@ -14,17 +14,14 @@ namespace Gestor_DolcePiu.Pages
 {
     public partial class Login : System.Web.UI.Page
     {
-        
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
 
-        //protected void BtnRegistrar_Click(object sender, EventArgs e)
-        //{
-        //    Response.Redirect("Registro.aspx");
-        //}
+
         protected void btnIngresar_Click(object sender, EventArgs e)
         {
             Usuario usuario = new Usuario();
@@ -34,13 +31,13 @@ namespace Gestor_DolcePiu.Pages
 
             UsuarioServices usuarioService = new UsuarioServices();
 
-            if(usuarioService.Login(usuario))
+            if (usuarioService.Login(usuario))
             {
                 // Guardar el usuario en la sesión
-                Session["UsuarioLogueado"] = usuario;
+                Session.Add("UsuarioLogueado", usuario);
 
                 // Redirigir a la página principal o dashboard
-                Response.Redirect("/Pages/Pedidos.aspx");
+                Response.Redirect("/Pages/Pedidos.aspx",false);
                 lblMensaje.Visible = false;
             }
             else
@@ -49,6 +46,11 @@ namespace Gestor_DolcePiu.Pages
                 lblMensaje.Text = "Email o contraseña incorrectos.";
                 lblMensaje.Visible = true;
             }
+        }
+
+        protected void BtnRegistrar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Page/Registro.aspx", false);
         }
     }
 }
