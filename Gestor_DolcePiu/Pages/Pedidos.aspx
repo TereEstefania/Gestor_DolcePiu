@@ -12,12 +12,12 @@
             <asp:Label ID="lblSeleccionarProductos" class="titulo" runat="server" Text="Seleccionar productos"></asp:Label>
          <div >                
             <asp:Label ID="lblSabor" runat="server" Text="Sabor"></asp:Label>
-            <asp:ListBox ID="ltsBoxProducto" runat="server" Rows="1"></asp:ListBox>
+            <asp:ListBox ID="lstSabores" runat="server" Rows="1"></asp:ListBox>
             <asp:Label ID="lblCantidad" runat="server" Text="Cantidad"></asp:Label>
-            <asp:TextBox ID="txtBoxCantidad" runat="server"></asp:TextBox>
+            <asp:TextBox ID="txtCantidad" runat="server"></asp:TextBox>
          </div>
         <div >
-            <asp:Button ID="BtnAgregarProducto" CssClass="btn btn-primary btn-dark" runat="server" Text="Agregar Producto" />
+            <asp:Button ID="btnAgregarProducto" CssClass="btn btn-primary btn-dark" runat="server" Text="Agregar Producto" OnClick="btnAgregarProducto_Click" />
         </div>
         <div >
             <asp:Label ID="lblZona" runat="server" Text="Zona"></asp:Label>
@@ -25,11 +25,11 @@
             <asp:Label ID="lblMetodoPago" runat="server" Text="Metodo de Pago"></asp:Label>
             <asp:RadioButtonList ID="rblFormaPago" runat="server"></asp:RadioButtonList>
         </div>
-        <div class="error">
+        <div>
           <asp:Label runat="server" CssClass="alert-danger" ID="lblRegistrado"></asp:Label>
         </div>
         <div class="lbtn">
-          <asp:Button ID="BtnRegistrar" CssClass="btn btn-primary btn-dark" runat="server" Text="Registrar Pedido"  />
+          <asp:Button ID="BtnRegistrar" CssClass="btn btn-primary btn-dark" runat="server" Text="Registrar Pedido" OnClick="BtnRegistrar_Click" />
         </div>
         </div>
         <div class="spacing grids-form">

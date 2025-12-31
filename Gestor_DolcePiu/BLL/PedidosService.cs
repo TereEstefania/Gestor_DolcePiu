@@ -1,6 +1,7 @@
 ﻿using Gestor_DolcePiu.DAL;
 using Gestor_DolcePiu.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -71,7 +72,256 @@ namespace Gestor_DolcePiu.BLL
                 ListItem item = new ListItem(sabor);
                 lista.Items.Add(item);
             }
+            acceso.cerrarConexion();
         }
-        
+
+        public ProductoSeleccionado AgregarProducto(string sabor, int cantidad)
+        {
+            AccesoDB acceso = new AccesoDB();
+            acceso.setearQuery("SELECT id_producto, precio, stock FROM dbo.producto WHERE nombre = @nombre");
+            acceso.agregarParametro("@nombre", sabor);
+            acceso.ejecutarLector();
+            double precio = 0.0f;
+            int stock = 0;
+            int idProducto = 0;
+            ProductoSeleccionado productosSeleccionados = null;
+
+            if (acceso.Lector.Read())
+            {
+                precio = (double)acceso.Lector["precio"];
+                stock = (int)acceso.Lector["stock"];
+                idProducto = (int)acceso.Lector["id_producto"];
+
+            }
+
+            acceso.cerrarConexion();
+
+            if (cantidad <= stock)
+            {
+   
+                productosSeleccionados = new ProductoSeleccionado
+                {
+                    Id = idProducto,
+                    Nombre = sabor,
+                    Cantidad = cantidad,
+                    Precio = precio
+                };
+
+                stock -= cantidad;
+                ActualizarStock(sabor, stock);
+                
+                return productosSeleccionados;
+            }
+            else
+            {
+               // lblRegistrado.Text = "Stock insuficiente";
+                return productosSeleccionados;
+                throw new Exception("Cantidad solicitada excede el stock disponible.");
+            }
+
+            
+        }
+
+        public void ActualizarStock(string sabor, int stock)
+        {
+            AccesoDB acceso = new AccesoDB();
+            acceso.setearQuery("UPDATE dbo.producto SET stock = @stock WHERE nombre = @nombre");
+            acceso.agregarParametro("@stock", stock);
+            acceso.agregarParametro("@nombre", sabor);
+            acceso.ejecutarAccion();
+            acceso.cerrarConexion();
+        }
+
+        public string RegistrarPedido(Usuario usuario, string pago, List<ProductoSeleccionado> productosElegidos)
+        {
+            AccesoDB acceso = new AccesoDB();
+            int idPedido = 0;
+            int idPago = 0;
+
+            try
+            {
+                CrearPedido(usuario.Id);
+                idPedido = ObtenerPedido(usuario.Id);
+                idPago = ObtenerPago(pago);
+                
+
+                // Insertar en la tabla pedido_producto
+                CargarPedido(productosElegidos,idPedido);
+
+                // crear la factura
+                CrearFactura(idPago, idPedido, usuario.Id, productosElegidos);
+
+              
+
+                return "Pedido registrado con éxito.";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+        }
+
+        public int ObtenerPedido(int idUsuario)
+        {
+
+            AccesoDB acceso = new AccesoDB();
+            int idPedido = 0;
+            try
+            {
+                acceso.setearQuery("SELECT TOP 1 id_pedido FROM dbo.pedido WHERE id_usuario = @idUsuario;");
+                acceso.agregarParametro("@idUsuario", idUsuario);
+                acceso.ejecutarLector();
+                if (acceso.Lector.Read())
+                {
+                    idPedido = (int)acceso.Lector["id_pedido"];
+                }
+                
+                acceso.cerrarConexion();
+
+                return idPedido;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }   
+        }
+
+        public int ObtenerPago(string nombrePago)
+        {
+
+            AccesoDB acceso = new AccesoDB();
+            int idPago = 0;
+            try
+            {
+                acceso.setearQuery("SELECT TOP 1 id_pago FROM dbo.formaPago WHERE tipoPago = @nombrePago;");
+                acceso.agregarParametro("@nombrePago", nombrePago);
+                acceso.ejecutarLector();
+                if (acceso.Lector.Read())
+                {
+                    idPago = (int)acceso.Lector["id_pago"];
+                }
+                acceso.cerrarConexion();
+
+                return idPago;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+        }
+
+        public int ObtenerZona(string nombreZona)
+        {
+
+            AccesoDB acceso = new AccesoDB();
+            int idZona = 0;
+            try
+            {
+                acceso.setearQuery("SELECT TOP 1 id_zona FROM dbo.zona WHERE nombre = @nombreZona;");
+                acceso.agregarParametro("@nombreZona", nombreZona);
+                acceso.ejecutarLector();
+                if (acceso.Lector.Read())
+                {
+                    idZona = (int)acceso.Lector["id_zona"];
+                }
+                acceso.cerrarConexion();
+                return idZona;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+        }
+
+        public void CrearPedido(int id)
+        {
+            AccesoDB acceso = new AccesoDB();
+            try
+            {
+                acceso.setearQuery("INSERT INTO dbo.pedido (id_usuario, estado) VALUES (@id_usuario, 'Pendiente');");
+                acceso.agregarParametro("@id_usuario", id); 
+                acceso.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                 acceso.cerrarConexion();
+            }
+        }
+
+        public void CargarPedido(List<ProductoSeleccionado> productosElegidos, int idPedido)
+        {
+            
+            try
+            {
+                foreach (var producto in productosElegidos)
+                {
+                    AccesoDB acceso = new AccesoDB();
+                    acceso.setearQuery("INSERT INTO dbo.pedido_producto (id_pedido, id_producto, cantidad) VALUES (@id_pedido, @id_producto, @cantidad);");
+                    acceso.agregarParametro("@id_pedido", idPedido);
+                    acceso.agregarParametro("@id_producto", producto.Id);
+                    acceso.agregarParametro("@cantidad", producto.Cantidad);
+                    acceso.ejecutarAccion();
+                    acceso.cerrarConexion();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+
+        }
+
+        public void CrearFactura(int idPago, int idPedido, int idUsuario, List<ProductoSeleccionado> listaProductosSeleccionados)
+        {
+            AccesoDB acceso = new AccesoDB();
+
+            try
+            {
+                acceso.setearQuery("INSERT INTO dbo.factura (id_pedido, id_usuario, id_pago, totalCompra, fecha) VALUES (@id_pedido, @id_usuario, @id_pago,@totalCompra, @fecha);");
+                acceso.agregarParametro("@id_pedido", idPedido);
+                acceso.agregarParametro("@id_usuario", idUsuario);
+                acceso.agregarParametro("@id_pago", idPago);
+                acceso.agregarParametro("@totalCompra", listaProductosSeleccionados.Sum(p => p.Precio * p.Cantidad));
+                acceso.agregarParametro("@fecha", DateTime.Now);
+                acceso.ejecutarAccion();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+        }
     }
 }

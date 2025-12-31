@@ -42,13 +42,13 @@ namespace Gestor_DolcePiu.Pages
         protected global::System.Web.UI.WebControls.Label lblSabor;
 
         /// <summary>
-        /// ltsBoxProducto control.
+        /// lstSabores control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox ltsBoxProducto;
+        protected global::System.Web.UI.WebControls.ListBox lstSabores;
 
         /// <summary>
         /// lblCantidad control.
@@ -60,22 +60,22 @@ namespace Gestor_DolcePiu.Pages
         protected global::System.Web.UI.WebControls.Label lblCantidad;
 
         /// <summary>
-        /// txtBoxCantidad control.
+        /// txtCantidad control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBoxCantidad;
+        protected global::System.Web.UI.WebControls.TextBox txtCantidad;
 
         /// <summary>
-        /// BtnAgregarProducto control.
+        /// btnAgregarProducto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnAgregarProducto;
+        protected global::System.Web.UI.WebControls.Button btnAgregarProducto;
 
         /// <summary>
         /// lblZona control.

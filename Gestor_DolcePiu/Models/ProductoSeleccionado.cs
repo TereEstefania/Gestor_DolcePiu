@@ -7,9 +7,10 @@ namespace Gestor_DolcePiu.Models
 {
     public class ProductoSeleccionado
     {
-        public string NombreProducto { get; set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; }
         public int Cantidad { get; set; }
-        public float PrecioUnitario { get; set; }
-        public float Subtotal { get; set; }
+        public double Precio { get; set; }
+        
     }
 }
