@@ -75,7 +75,9 @@
     <Content Include="Pages\Nosotros.aspx" />
     <Content Include="Pages\ok.html" />
     <Content Include="Pages\Pedidos.aspx" />
+    <Content Include="Pages\Perfil.aspx" />
     <Content Include="Pages\Registro.aspx" />
+    <Content Include="Pages\VisualizarPedidos.aspx" />
     <Content Include="Recursos\img\avatar.png" />
     <Content Include="Recursos\img\dolce_piu_name.png" />
     <Content Include="Recursos\img\fabrica-helados-cinco.png" />
@@ -93,6 +95,7 @@
     <Content Include="Recursos\img\Remove-bg.ai_1719786109469.png" />
     <Content Include="Recursos\img\vitrina-helados.jpg" />
     <Content Include="Recursos\img\whatsapp.png" />
+    <Content Include="Recursos\script.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -137,12 +140,26 @@
     <Compile Include="Pages\Pedidos.aspx.designer.cs">
       <DependentUpon>Pedidos.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Perfil.aspx.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Perfil.aspx.designer.cs">
+      <DependentUpon>Perfil.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Registro.aspx.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\Registro.aspx.designer.cs">
       <DependentUpon>Registro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\VisualizarPedidos.aspx.cs">
+      <DependentUpon>VisualizarPedidos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\VisualizarPedidos.aspx.designer.cs">
+      <DependentUpon>VisualizarPedidos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.login.Master.cs">
       <DependentUpon>Site.login.Master</DependentUpon>
@@ -173,11 +190,19 @@
     <Compile Include="Site.master.Master.designer.cs">
       <DependentUpon>Site.master.Master</DependentUpon>
     </Compile>
+    <Compile Include="Site.Pedidos.Master.cs">
+      <DependentUpon>Site.Pedidos.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Pedidos.Master.designer.cs">
+      <DependentUpon>Site.Pedidos.Master</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Site.login.Master" />
     <None Include="packages.config" />
     <Content Include="Site.master.Master" />
+    <Content Include="Site.Pedidos.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

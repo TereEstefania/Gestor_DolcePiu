@@ -114,7 +114,7 @@ namespace Gestor_DolcePiu.BLL
             }
             else
             {
-               // lblRegistrado.Text = "Stock insuficiente";
+               
                 return productosSeleccionados;
                 throw new Exception("Cantidad solicitada excede el stock disponible.");
             }
@@ -131,6 +131,26 @@ namespace Gestor_DolcePiu.BLL
             acceso.ejecutarAccion();
             acceso.cerrarConexion();
         }
+
+        public void ActualizarStockProducto(string id, int cantidad, string sabor)
+        {
+            AccesoDB acceso = new AccesoDB();
+            acceso.setearQuery("Select stock from dbo.producto WHERE id_producto = @Id");
+            acceso.agregarParametro("@Id", id);
+            acceso.ejecutarLector();
+            int stock = 0;
+
+            if (acceso.Lector.Read())
+            {
+                stock = (int)acceso.Lector["stock"];
+            }
+
+            acceso.cerrarConexion();
+            stock += cantidad;
+
+            ActualizarStock(sabor, stock);
+  
+        }   
 
         public string RegistrarPedido(Usuario usuario, string pago, List<ProductoSeleccionado> productosElegidos)
         {
@@ -150,8 +170,6 @@ namespace Gestor_DolcePiu.BLL
 
                 // crear la factura
                 CrearFactura(idPago, idPedido, usuario.Id, productosElegidos);
-
-              
 
                 return "Pedido registrado con éxito.";
             }

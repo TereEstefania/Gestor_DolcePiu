@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.WebSockets;
@@ -14,6 +15,7 @@ namespace Gestor_DolcePiu.Pages
     {
         private string sabor;
         private int cantidad;
+        public bool clickeado { get; set; }
         
         TipoPago tipoPago = new TipoPago();
         Usuario usuarioLogueado = new Usuario();
@@ -22,6 +24,7 @@ namespace Gestor_DolcePiu.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            clickeado = false;
             usuarioLogueado = (Usuario)Session["UsuarioLogueado"];
             if (usuarioLogueado == null)
             {
@@ -97,6 +100,16 @@ namespace Gestor_DolcePiu.Pages
             lblTotal.Text = "Total: " + total.ToString("C");
         }
 
+        private void LimpiarFormulario()
+        {
+            lstSabores.ClearSelection();
+            txtCantidad.Text = "";
+            lstZonas.ClearSelection();
+            lblRegistrado.Text = "";
+            gvMostrarProductos.DataSource = null;
+            gvMostrarProductos.DataBind();
+        }
+
         protected void BtnRegistrar_Click(object sender, EventArgs e)
         {
             string zona = lstZonas.SelectedItem.ToString();
@@ -122,11 +135,40 @@ namespace Gestor_DolcePiu.Pages
 
             msj = pedidosService.RegistrarPedido(usuarioLogueado, formaPago, listaProductosSeleccionados);
 
-            if (string.IsNullOrEmpty(msj))
+            if (!string.IsNullOrEmpty(msj))
             {
-                lblRegistrado.Text = "El pedido se registro correctamente! gracias!";//por algo no me escribe
+               
+                clickeado = true;
+                lblAlerta.Text = msj;
+                 //por algo no me escribe
                 return;
             }
+        }
+
+        protected void btnCerrarAlerta_Click(object sender, EventArgs e)
+        {
+            LimpiarFormulario();
+            
+            
+        }
+
+        protected void gvMostrarProductos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            ProductoSeleccionado productoSeleccionado = new ProductoSeleccionado();
+
+            string id = gvMostrarProductos.SelectedDataKey.Value.ToString();
+            int cant = int.Parse(gvMostrarProductos.SelectedRow.Cells[2].Text);
+            string nombre = gvMostrarProductos.SelectedRow.Cells[1].Text;
+            pedidosService.ActualizarStockProducto(id, cant, nombre);
+
+            listaProductosSeleccionados = (List<ProductoSeleccionado>)Session["ListaProductosSeleccionados"];
+            
+            productoSeleccionado = listaProductosSeleccionados.Find(p => p.Id.ToString() == id);
+            listaProductosSeleccionados.Remove(productoSeleccionado);
+
+            MostrarProductos();
+             
         }
     }
 }
