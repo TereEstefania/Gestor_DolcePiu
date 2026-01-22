@@ -49,13 +49,6 @@ namespace Gestor_DolcePiu.Pages
             }
         }
 
-
-
-        protected PedidosService GetPedidosService()
-        {
-            return pedidosService;
-        }
-
         protected void btnAgregarProducto_Click(object sender, EventArgs e)
         {
             ProductoSeleccionado producto = new ProductoSeleccionado();
@@ -140,7 +133,6 @@ namespace Gestor_DolcePiu.Pages
                
                 clickeado = true;
                 lblAlerta.Text = msj;
-                 //por algo no me escribe
                 return;
             }
         }

@@ -215,7 +215,7 @@ namespace Gestor_DolcePiu.BLL
             int idPedido = 0;
             try
             {
-                acceso.setearQuery("SELECT id_pedido FROM dbo.pedido WHERE id_usuario = @idUsuario;");
+                acceso.setearQuery("SELECT TOP 1 id_pedido FROM dbo.pedido WHERE id_usuario = @idUsuario ORDER BY id_pedido desc;");// ojito con las consultas!
                 acceso.agregarParametro("@idUsuario", idUsuario);
                 acceso.ejecutarLector();
                 if (acceso.Lector.Read())
