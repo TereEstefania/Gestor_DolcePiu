@@ -11,15 +11,39 @@ namespace Gestor_DolcePiu.BLL
 {
     public class PedidosService
     {
-        //public void VisualizarPedidos(int id)
-        //{
-        //    // Lógica para visualizar pedidos
-        //    AccesoDB acceso = new AccesoDB();
-            
-            
-        //    acceso.setearQuery("SELECT p.id_pedido, p.estado, f.fecha FROM dbo.pedido p JOIN dbo.factura f ON p.id_pedido = f.id_pedido WHERE f.id_usuario = @id_usuario;");
-        //    acceso.agregarParametro("@id_usuario", id ); // Aquí deberías pasar el ID del usuario logueado
-        //}
+        public List<DetallePedido> ListarPedidos(int id)
+        {
+            // Lógica para visualizar pedidos
+            AccesoDB acceso = new AccesoDB();
+            List<DetallePedido> ListaPedidos = new List<DetallePedido>();
+            try
+            {
+                acceso.setearQuery("SELECT p.id_pedido, p.estado, f.fecha FROM dbo.pedido p JOIN dbo.factura f ON p.id_pedido = f.id_pedido WHERE f.id_usuario = @id_usuario;");
+                acceso.agregarParametro("@id_usuario", id); // Aquí deberías pasar el ID del usuario logueado
+
+                acceso.ejecutarLector();
+                while (acceso.Lector.Read())
+                {
+                    DetallePedido detallePedido = new DetallePedido();
+                    detallePedido.Id = (int)acceso.Lector["id_pedido"];
+                    detallePedido.Estado = (string)acceso.Lector["estado"];
+                    detallePedido.Fecha = (DateTime)acceso.Lector["fecha"];
+                    ListaPedidos.Add(detallePedido);
+                }
+
+                return ListaPedidos;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                acceso.cerrarConexion();
+            }
+
+        }
 
         public void CargarZonas(ListBox lista)
         {
@@ -191,7 +215,7 @@ namespace Gestor_DolcePiu.BLL
             int idPedido = 0;
             try
             {
-                acceso.setearQuery("SELECT TOP 1 id_pedido FROM dbo.pedido WHERE id_usuario = @idUsuario;");
+                acceso.setearQuery("SELECT id_pedido FROM dbo.pedido WHERE id_usuario = @idUsuario;");
                 acceso.agregarParametro("@idUsuario", idUsuario);
                 acceso.ejecutarLector();
                 if (acceso.Lector.Read())

@@ -148,8 +148,7 @@ namespace Gestor_DolcePiu.Pages
         protected void btnCerrarAlerta_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
-            
-            
+
         }
 
         protected void gvMostrarProductos_SelectedIndexChanged(object sender, EventArgs e)
