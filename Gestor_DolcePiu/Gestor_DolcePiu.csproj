@@ -95,7 +95,6 @@
     <Content Include="Recursos\img\Remove-bg.ai_1719786109469.png" />
     <Content Include="Recursos\img\vitrina-helados.jpg" />
     <Content Include="Recursos\img\whatsapp.png" />
-    <Content Include="Recursos\script.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +113,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Credenciales.cs" />
+    <Compile Include="Models\Factura.cs" />
     <Compile Include="Models\ProductoSeleccionado.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\TipoPago.cs" />

@@ -48,7 +48,7 @@ namespace Gestor_DolcePiu.BLL
         public void CargarZonas(ListBox lista)
         {
 
-           // Lógica para cargar zonas
+            // Lógica para cargar zonas
             AccesoDB acceso = new AccesoDB();
             acceso.setearQuery("SELECT DISTINCT id_zona, nombre FROM dbo.zona;");
 
@@ -122,7 +122,7 @@ namespace Gestor_DolcePiu.BLL
 
             if (cantidad <= stock)
             {
-   
+
                 productosSeleccionados = new ProductoSeleccionado
                 {
                     Id = idProducto,
@@ -133,17 +133,17 @@ namespace Gestor_DolcePiu.BLL
 
                 stock -= cantidad;
                 ActualizarStock(sabor, stock);
-                
+
                 return productosSeleccionados;
             }
             else
             {
-               
+
                 return productosSeleccionados;
                 throw new Exception("Cantidad solicitada excede el stock disponible.");
             }
 
-            
+
         }
 
         public void ActualizarStock(string sabor, int stock)
@@ -173,8 +173,8 @@ namespace Gestor_DolcePiu.BLL
             stock += cantidad;
 
             ActualizarStock(sabor, stock);
-  
-        }   
+
+        }
 
         public string RegistrarPedido(Usuario usuario, string pago, List<ProductoSeleccionado> productosElegidos)
         {
@@ -187,10 +187,10 @@ namespace Gestor_DolcePiu.BLL
                 CrearPedido(usuario.Id);
                 idPedido = ObtenerPedido(usuario.Id);
                 idPago = ObtenerPago(pago);
-                
+
 
                 // Insertar en la tabla pedido_producto
-                CargarPedido(productosElegidos,idPedido);
+                CargarPedido(productosElegidos, idPedido);
 
                 // crear la factura
                 CrearFactura(idPago, idPedido, usuario.Id, productosElegidos);
@@ -222,7 +222,7 @@ namespace Gestor_DolcePiu.BLL
                 {
                     idPedido = (int)acceso.Lector["id_pedido"];
                 }
-                
+
                 acceso.cerrarConexion();
 
                 return idPedido;
@@ -235,7 +235,7 @@ namespace Gestor_DolcePiu.BLL
             finally
             {
                 acceso.cerrarConexion();
-            }   
+            }
         }
 
         public int ObtenerPago(string nombrePago)
@@ -301,7 +301,7 @@ namespace Gestor_DolcePiu.BLL
             try
             {
                 acceso.setearQuery("INSERT INTO dbo.pedido (id_usuario, estado) VALUES (@id_usuario, 'Pendiente');");
-                acceso.agregarParametro("@id_usuario", id); 
+                acceso.agregarParametro("@id_usuario", id);
                 acceso.ejecutarAccion();
             }
             catch (Exception)
@@ -311,13 +311,13 @@ namespace Gestor_DolcePiu.BLL
             }
             finally
             {
-                 acceso.cerrarConexion();
+                acceso.cerrarConexion();
             }
         }
 
         public void CargarPedido(List<ProductoSeleccionado> productosElegidos, int idPedido)
         {
-            
+
             try
             {
                 foreach (var producto in productosElegidos)
@@ -336,7 +336,7 @@ namespace Gestor_DolcePiu.BLL
 
                 throw;
             }
-           
+
 
         }
 
@@ -363,6 +363,81 @@ namespace Gestor_DolcePiu.BLL
             finally
             {
                 acceso.cerrarConexion();
+            }
+        }
+
+        public Factura ObtenerFactura(int id)
+        {
+            AccesoDB acceso = new AccesoDB();
+
+            Factura factura = new Factura();
+            try
+            {
+                acceso.setearQuery("SELECT f.id_factura, u.nombre, fp.tipoPago, f.fecha, f.totalCompra FROM factura f INNER JOIN usuario u ON f.id_usuario = u.id_usuario INNER JOIN formaPago fp ON f.id_pago = fp.id_pago where f.id_pedido = @id_pedido;");
+                acceso.agregarParametro("@id_pedido", id);
+                acceso.ejecutarLector();
+                while (acceso.Lector.Read())
+                {
+
+                    factura.Id = (int)acceso.Lector["id_factura"];
+                    factura.NombreUsuario = new Usuario
+                    {
+                        Nombre = (string)acceso.Lector["nombre"]
+                    };
+                    factura.TipoPago = new TipoPago
+                    {
+                        Tipo_Pago = (string)acceso.Lector["tipoPago"]
+                    };
+                    factura.Fecha = (DateTime)acceso.Lector["fecha"];
+                    factura.TotalFactura = (double)acceso.Lector["totalCompra"];
+
+                }
+
+                return factura;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally { acceso.cerrarConexion(); }
+        }
+
+        public List<ProductoSeleccionado> ListarProductosPedidos(int id)
+        {
+            AccesoDB accesoDB = new AccesoDB();
+            List<ProductoSeleccionado> productosPedidos = new List<ProductoSeleccionado>();
+
+            try
+            {
+                accesoDB.setearQuery("SELECT p.id_producto, p.nombre, pp.cantidad, p.precio FROM pedido_producto pp INNER JOIN producto p ON pp.id_producto = p.id_producto WHERE pp.id_pedido = @id_pedido;");
+                accesoDB.agregarParametro("@id_pedido", id);
+                accesoDB.ejecutarLector();
+
+                while (accesoDB.Lector.Read())
+                {
+                    ProductoSeleccionado producto = new ProductoSeleccionado
+                    {
+                        Id = (int)accesoDB.Lector["id_producto"],
+                        Nombre = (string)accesoDB.Lector["nombre"],
+                        Cantidad = (int)accesoDB.Lector["cantidad"],
+                        Precio = (double)accesoDB.Lector["precio"]
+                    };
+
+                    productosPedidos.Add(producto);
+                }
+
+                return productosPedidos;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                accesoDB.cerrarConexion();
             }
         }
     }
