@@ -20,23 +20,7 @@ namespace Gestor_DolcePiu.Pages
             {
                 PedidosService pedidosService = new PedidosService();
                 pedidosService.CargarZonas(lstZonas);
-                //AccesoDB acceso = new AccesoDB();
 
-                //acceso.setearQuery("SELECT id_zona, nombre from dbo.zona");
-                //acceso.ejecutarLector();
-
-                //    while (acceso.Lector.Read())
-                //    {
-                //        Zonas zonas = new Zonas();
-                //        int id_zona = (int)acceso.Lector["id_zona"];
-                //        string nombre = (string)acceso.Lector["nombre"];
-
-                //        ListItem item = new ListItem(nombre, id_zona.ToString()); // Crear un ListItem con nombre y valor (id_zona)
-                //        lstZonas.Items.Add(item); // Agregar el ListItem al ListBox
-                //    }
-
-
-                
             }
 
         }
@@ -50,8 +34,8 @@ namespace Gestor_DolcePiu.Pages
                 nuevoUsuario.Nombre = txtNombre.Text;
                 nuevoUsuario.Apellido = txtApellido.Text;
                 nuevoUsuario.Direccion = txtDireccion.Text;
-                nuevoUsuario.Dni = int.Parse(txtDocumento.Text);
-                nuevoUsuario.Telefono = int.Parse(txtTelefono.Text);
+                nuevoUsuario.Dni = txtDocumento.Text;
+                nuevoUsuario.Telefono = txtTelefono.Text;
                 nuevoUsuario.credencial = new Credenciales();
                 nuevoUsuario.credencial.Email = txtEmail.Text;
                 nuevoUsuario.credencial.Pass = txtContrasenia.Text;

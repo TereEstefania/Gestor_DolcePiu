@@ -154,5 +154,43 @@ namespace Gestor_DolcePiu.BLL
                 acceso.cerrarConexion();
             }
         }
+
+        //visualisar usuario
+        public Usuario VisualizarUsuario(int id)
+        {
+            AccesoDB acceso = new AccesoDB();
+            Usuario usuario = new Usuario();
+            try
+            {
+                acceso.setearQuery("SELECT u.nombre, u.apellido, u.telefono, u.direccion, u.dni, z.nombre as zona FROM usuario u INNER JOIN zona z ON u.id_zona = z.id_zona WHERE u.id_usuario = @id_usuario");
+                acceso.agregarParametro("@id_usuario", id);
+                acceso.ejecutarLector();
+
+                if (acceso.Lector.Read())
+                {
+                    
+                    usuario.Nombre = (string)acceso.Lector["nombre"];
+                    usuario.Apellido = (string)acceso.Lector["apellido"];
+                    usuario.Telefono = (string)acceso.Lector["telefono"];
+                    usuario.Direccion = (string)acceso.Lector["direccion"];
+                    usuario.Dni = (string)acceso.Lector["dni"];
+                    usuario.Zona = new Zonas();
+                    usuario.Zona.NombreZona = (string)acceso.Lector["zona"];
+                    
+                }
+
+                return usuario;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }finally
+            {
+                acceso.cerrarConexion();
+            }
+          
+        }
+        //editar datos usuario
     }
 }
